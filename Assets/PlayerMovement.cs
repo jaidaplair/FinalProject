@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
         transform.Translate(Vector2.right * speed * Time.deltaTime);
 
         // Jump when Space key is pressed and the player is grounded
-        if (Input.GetKey(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             // Rotate the player
