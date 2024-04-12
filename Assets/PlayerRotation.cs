@@ -2,27 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerRotation : MonoBehaviour
 {
-    [SerializeField] float speed = 8f;
-   // [SerializeField] float jumpForce = 10f;
-  //  [SerializeField] float rotationSpeed = 200f; // Adjust the rotation speed as needed
-    
+    [SerializeField] float jumpForce = 10f;
+    [SerializeField] float rotationSpeed = -13f; // Adjust the rotation speed as needed
+
     bool isGrounded = false;
     Rigidbody2D rb;
-    Animator animator;
-
+    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //animator = GetComponent<Animator>();
+
     }
 
+    // Update is called once per frame
     void Update()
     {
-        // Move the player horizontally
-        transform.Translate(Vector2.right * speed * Time.deltaTime);//,Space.World);
-        /*
         // Jump when Space key is pressed and the player is grounded
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
@@ -31,27 +27,11 @@ public class PlayerMovement : MonoBehaviour
             //animator.SetTrigger();
 
             // Rotate the player
-           // StartCoroutine(RotatePlayer(90f));
-        }*/
-    }
-    /*
-    IEnumerator RotatePlayer(float targetAngle)
-    {
-        float startAngle = transform.eulerAngles.z;
-        float t = 0f;
-        while (t < 1f)
-        {
-            t += Time.deltaTime * rotationSpeed;
-            float angle = Mathf.Lerp(startAngle, targetAngle, t);
-            transform.eulerAngles = new Vector3(0, 0, angle);
-            yield return null;
+            // StartCoroutine(RotatePlayer(90f));
         }
-        transform.eulerAngles = new Vector3(0, 0, targetAngle);
-        yield return null;
-    }*/
+    }
 
-    // Check if the player is grounded
-   /* void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
@@ -64,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Destroy(collision.gameObject);
                 Destroy(gameObject);//destroy player
+                //Destroy(ParticleSystem);
             }
         }
     }
@@ -74,6 +55,5 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = false;
         }
-    }*/
+    }
 }
-
