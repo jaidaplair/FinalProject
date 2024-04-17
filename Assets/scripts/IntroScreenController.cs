@@ -17,8 +17,14 @@ public class IntroScreenController : MonoBehaviour
         //if the user hits spacebar, load game scene
         if(Input.GetKeyDown(KeyCode.Space)) 
         {
-           // animator.SetTrigger("fadeOut");
-            SceneManager.LoadScene("GameScene");
+            animator.SetTrigger("fadeOut");
+            Invoke("SwitchScene", 1f);
+            //SceneManager.LoadScene("GameScene");
         }
+    }
+
+    void SwitchScene()
+    {
+        SceneManager.LoadScene("GameScene");
     }
 }

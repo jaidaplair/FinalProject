@@ -6,6 +6,8 @@ public class PlayerRotation : MonoBehaviour
 {
     [SerializeField] float jumpForce = 10f;
     [SerializeField] float rotation = -13f; // Adjust the rotation speed as needed
+    private bool doubleJump;
+    private float doubleJumpingPower = 10f;
 
     bool isGrounded = false;
     Rigidbody2D rb;
@@ -19,16 +21,33 @@ public class PlayerRotation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       /* if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+           // rb.velocity = new Vector2(rb.velocity.x, doubleJump ? doubleJumpingPower : jumpForce);
+            rb.AddTorque(rotation);
+            doubleJump = !doubleJump;
+            doubleJump = false;
+        }*/
+
+
         // Jump when Space key is pressed and the player is grounded
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            rb.AddTorque(rotation);
-            //animator.SetTrigger();
+            //if((isGrounded) || doubleJump)
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+               // rb.velocity = new Vector2(rb.velocity.x, doubleJump ? doubleJumpingPower : jumpForce);
+                rb.AddTorque(rotation);
+                doubleJump = !doubleJump;
+                //animator.SetTrigger();
 
-            // Rotate the player
-            // StartCoroutine(RotatePlayer(90f));
+                // Rotate the player
+                // StartCoroutine(RotatePlayer(90f));
+            }
         }
+        
     }
 
     void OnCollisionEnter2D(Collision2D collision)
