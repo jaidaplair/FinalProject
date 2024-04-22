@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +6,7 @@ public class PlayerRotation : MonoBehaviour
 {
     [SerializeField] float jumpForce = 10f;
     [SerializeField] float rotation = -13f; // Adjust the rotation speed as needed
+    [SerializeField] new ParticleSystem particleSystem; // Reference to the particle system
     private bool doubleJump;
     private float doubleJumpingPower = 10f;
 
@@ -29,7 +30,7 @@ public class PlayerRotation : MonoBehaviour
             doubleJump = !doubleJump;
             doubleJump = false;
         }*/
-
+/*
 
         // Jump when Space key is pressed and the player is grounded
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
@@ -46,9 +47,19 @@ public class PlayerRotation : MonoBehaviour
                 // Rotate the player
                 // StartCoroutine(RotatePlayer(90f));
             }
+            
         }
-        
+        // Enable/disable particle system based on player's grounded state
+        if (particleSystem != null)
+        {
+            if (isGrounded)
+                particleSystem.Play();
+            else
+                particleSystem.Stop();
+        }
     }
+
+}
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -75,4 +86,71 @@ public class PlayerRotation : MonoBehaviour
             isGrounded = false;
         }
     }
+}*/
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerRotation : MonoBehaviour
+{
+    [SerializeField] float jumpForce = 10f;
+    [SerializeField] float rotation = -13f;
+    [SerializeField] ParticleSystem particleSystem; // Reference to the particle system
+    private bool doubleJump;
+    private float doubleJumpingPower = 10f;
+
+    bool isGrounded = false;
+    Rigidbody2D rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.AddTorque(rotation);
+            doubleJump = true; // Enable double jump when grounded
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && doubleJump)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, doubleJumpingPower);
+            rb.AddTorque(rotation);
+            doubleJump = false; // Disable double jump after performing it
+        }
+
+        // Enable/disable particle system based on player's grounded state
+        if (particleSystem != null)
+        {
+            if (isGrounded)
+                particleSystem.Play();
+            else
+                particleSystem.Stop();
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+        else if (collision.gameObject.CompareTag("Hit"))
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
 }
+
