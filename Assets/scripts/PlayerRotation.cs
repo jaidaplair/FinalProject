@@ -110,13 +110,13 @@ public class PlayerRotation : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKey(KeyCode.Space) && isGrounded)//one jump
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             rb.AddTorque(rotation);
             doubleJump = true; // Enable double jump when grounded
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && doubleJump)
+        else if (Input.GetKeyDown(KeyCode.Space) && doubleJump)// if holding now space bar then it continuously jumps back to back
         {
             rb.velocity = new Vector2(rb.velocity.x, doubleJumpingPower);
             rb.AddTorque(rotation);
@@ -127,10 +127,28 @@ public class PlayerRotation : MonoBehaviour
         if (particleSystem != null)
         {
             if (isGrounded)
-                particleSystem.Play();
+                particleSystem.gameObject.SetActive(true);
             else
-                particleSystem.Stop();
+                particleSystem.gameObject.SetActive(false);
         }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {   //find and return the first object you see with a gamemanager component in it
+        GameManager gm;
+        gm = FindAnyObjectByType<GameManager>();
+
+        if (collision.CompareTag("Hit") == true)
+        {   //increment score
+            gm.score += 1;
+
+        }
+        
+
+
+
+       // Destroy(collision.gameObject);//destroy object we hit
+        //Destroy(gameObject);//destroy the fireball
+        //Debug.Log("Ive been triggered!!!!!!!!!"+ collision.name);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -153,4 +171,5 @@ public class PlayerRotation : MonoBehaviour
         }
     }
 }
+
 
