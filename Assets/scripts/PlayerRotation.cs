@@ -90,6 +90,7 @@ public class PlayerRotation : MonoBehaviour
 
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerRotation : MonoBehaviour
@@ -97,15 +98,20 @@ public class PlayerRotation : MonoBehaviour
     [SerializeField] float jumpForce = 10f;
     [SerializeField] float rotation = -13f;
     [SerializeField] ParticleSystem particleSystem; // Reference to the particle system
+    [SerializeField] AudioClip death;
     private bool doubleJump;
     private float doubleJumpingPower = 10f;
+    [SerializeField] PlayerMovement pm;
 
     bool isGrounded = false;
     Rigidbody2D rb;
+    private AudioSource audioSource;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
+
     }
 
     void Update()
@@ -132,34 +138,49 @@ public class PlayerRotation : MonoBehaviour
                 particleSystem.gameObject.SetActive(false);
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    /*private void OnTriggerEnter2D(Collider2D collision)
     {   //find and return the first object you see with a gamemanager component in it
         GameManager gm;
         gm = FindAnyObjectByType<GameManager>();
 
-        if (collision.CompareTag("Hit") == true)
-        {   //increment score
-            gm.score += 1;
-
-        }
-        
-
-
-
-       // Destroy(collision.gameObject);//destroy object we hit
-        //Destroy(gameObject);//destroy the fireball
-        //Debug.Log("Ive been triggered!!!!!!!!!"+ collision.name);
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
         }
         else if (collision.gameObject.CompareTag("Hit"))
         {
-            Destroy(gameObject);
+            // Destroy(gameObject,2f);
+            //increment score
+            audioSource.PlayOneShot(death);
+            gm.score += 1;
+            Destroy(gameObject, 2f);
+        }
+
+
+
+       // Destroy(collision.gameObject);//destroy object we hit
+        //Destroy(gameObject);//destroy the fireball
+        //Debug.Log("Ive been triggered!!!!!!!!!"+ collision.name);
+    }*/
+    
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        GameManager gm;
+        gm = FindAnyObjectByType<GameManager>();
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+        else if (collision.gameObject.CompareTag("Hit"))
+        {
+            // Destroy(gameObject,2f);
+            //increment score
+            audioSource.PlayOneShot(death);
+           // audioSource.clip = death;
+            //audioSource.Play();
+            gm.score += 1;
+            //Destroy(gameObject, 0.4f);
+            pm.speed = 0;
         }
     }
 
