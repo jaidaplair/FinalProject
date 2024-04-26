@@ -98,6 +98,7 @@ public class PlayerRotation : MonoBehaviour
     [SerializeField] float jumpForce = 10f;
     [SerializeField] float rotation = -13f;
     [SerializeField] ParticleSystem particleSystem; // Reference to the particle system
+    [SerializeField] ParticleSystem particleSystems;
     [SerializeField] AudioClip death;
     private bool doubleJump;
     private float doubleJumpingPower = 10f;
@@ -133,9 +134,9 @@ public class PlayerRotation : MonoBehaviour
         if (particleSystem != null)
         {
             if (isGrounded)
-                particleSystem.gameObject.SetActive(true);
+                particleSystem.gameObject.SetActive(true);//plays
             else
-                particleSystem.gameObject.SetActive(false);
+                particleSystem.gameObject.SetActive(false);//turns off
         }
     }
     /*private void OnTriggerEnter2D(Collider2D collision)
@@ -175,12 +176,16 @@ public class PlayerRotation : MonoBehaviour
         {
             // Destroy(gameObject,2f);
             //increment score
-            audioSource.PlayOneShot(death);
+            audioSource.PlayOneShot(death);//play sound when i die
            // audioSource.clip = death;
             //audioSource.Play();
             gm.score += 1;
-            //Destroy(gameObject, 0.4f);
-            pm.speed = 0;
+            Destroy(gameObject, .17f);
+            particleSystems.Play();// turn on explosion particles
+            particleSystem.Stop();//turn off stream
+
+
+            //pm.speed = 0;
         }
     }
 
