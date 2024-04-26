@@ -8,10 +8,12 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] TMP_Text ScoreUiText;
     public int score = 1;
+    
     [SerializeField] GameObject fades;
     // Start is called before the first frame update
     void Start()
     {
+        
         
     }
 

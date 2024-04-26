@@ -92,6 +92,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerRotation : MonoBehaviour
 {
@@ -179,11 +181,11 @@ public class PlayerRotation : MonoBehaviour
             audioSource.PlayOneShot(death);//play sound when i die
            // audioSource.clip = death;
             //audioSource.Play();
-            gm.score += 1;
+            //gm.score += 1;
             Destroy(gameObject, .17f);
             particleSystems.Play();// turn on explosion particles
             particleSystem.Stop();//turn off stream
-
+           
 
             //pm.speed = 0;
         }
