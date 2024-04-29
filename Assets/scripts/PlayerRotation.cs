@@ -88,6 +88,7 @@ public class PlayerRotation : MonoBehaviour
     }
 }*/
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -109,11 +110,16 @@ public class PlayerRotation : MonoBehaviour
     bool isGrounded = false;
     Rigidbody2D rb;
     private AudioSource audioSource;
+    [SerializeField] GameManager gm;
+   
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
+       // gm = FindAnyObjectByType<GameManager>();
+        //GameManager gm;
+        // gm = FindAnyObjectByType<GameManager>();
 
     }
 
@@ -168,8 +174,7 @@ public class PlayerRotation : MonoBehaviour
     
     void OnCollisionEnter2D(Collision2D collision)
     {
-        GameManager gm;
-        gm = FindAnyObjectByType<GameManager>();
+        
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
@@ -181,14 +186,36 @@ public class PlayerRotation : MonoBehaviour
             audioSource.PlayOneShot(death);//play sound when i die
            // audioSource.clip = death;
             //audioSource.Play();
-            //gm.score += 1;
-            Destroy(gameObject, .17f);
+            
+            //Destroy(gameObject, .17f);
             particleSystems.Play();// turn on explosion particles
             particleSystem.Stop();//turn off stream
-           
+            RestartScene();
+          //  gm.score += 1;
 
+            //Invoke(nameof(RestartScene), .25f);
+            //Debug.Log("heeeeeeeeey");
+
+            //gm.score += 1;
             //pm.speed = 0;
         }
+    }
+    public void RestartScene()
+    {
+        Debug.Log("in restart");
+        // GameManager gm;
+        // gm = FindAnyObjectByType<GameManager>();
+        gm.score += 1;
+        gm.Restart();
+        Debug.Log("did not restart");
+        // transform.position = startTransform.position;
+        //Scene GameScene = SceneManager.GetActiveScene();
+        // SceneManager.LoadScene(GameScene.name);
+        //gm.score += 1;
+
+        //GameManager gm = FindObjectOfType<GameManager>(); // Find the GameManager instance
+
+
     }
 
     void OnCollisionExit2D(Collision2D collision)

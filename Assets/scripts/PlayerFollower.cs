@@ -14,6 +14,10 @@ public class PlayerFollower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player == null) 
+        {
+            return;
+        }
         //read posiotn
         Vector3 pos = transform.position;
         //assign our position to the x position of the player
