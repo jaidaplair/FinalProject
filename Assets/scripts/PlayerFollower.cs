@@ -22,6 +22,13 @@ public class PlayerFollower : MonoBehaviour
         Vector3 pos = transform.position;
         //assign our position to the x position of the player
         pos.x = player.transform.position.x;
+        if (player.transform.position.y > 4.2f)
+        {
+            //assign our position to the y position of the player
+            pos.y = player.transform.position.y;
+        }
+        
+
         //set our new x position
         transform.position = pos;
     }
