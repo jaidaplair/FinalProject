@@ -12,17 +12,29 @@ public class PlayerMovement : MonoBehaviour
     bool isGrounded = false;
     Rigidbody2D rb;
     Animator animator;
+    GameManager gameManager; // Reference to the GameManager script
+    
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         //animator = GetComponent<Animator>();
+        gameManager = FindObjectOfType<GameManager>();
+
     }
 
     void Update()
     {
+        transform.Translate(Vector2.right * speed * Time.deltaTime);
+
         // Move the player horizontally
-        transform.Translate(Vector2.right * speed * Time.deltaTime);//,Space.World);
+       // transform.Translate(Vector2.right * speed * Time.deltaTime);//,Space.World);
+        // Check if the player is moving left
+        //if (Input.GetAxis("Horizontal") < 0)
+       // {
+            // Call Restart() from GameManager if the player moves left
+          //  gameManager.Restart();
+       // }
         /*
         // Jump when Space key is pressed and the player is grounded
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
